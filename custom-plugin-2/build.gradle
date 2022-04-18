@@ -1,0 +1,24 @@
+plugins {
+    id('java-gradle-plugin')
+}
+
+repositories {
+    mavenCentral()
+}
+gradlePlugin {
+    plugins {
+        simplePlugin {
+            id = 'com.example'
+            implementationClass = 'com.example.plugin.MyPlugin'
+        }
+    }
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation('org.jooq:jooq-codegen:3.15.1')
+    implementation('org.testcontainers:postgresql:1.16.2')
+    implementation('org.liquibase:liquibase-core:3.8.8')
+    implementation('org.postgresql:postgresql:42.3.1')
+    implementation project(":liquibase-migrations")
+}

@@ -1,0 +1,12 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+    }
+    includeBuild('./custom-plugin')
+}
+
+rootProject.name = 'gradle-custom-plugin-demo'
+
+include 'liquibase-migrations',
+        'executor',
+        'custom-plugin-2'

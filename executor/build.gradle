@@ -1,0 +1,44 @@
+plugins {
+    id ('java-library')
+}
+
+sourceSets {
+    jooq {
+        java {
+            srcDir file('build/generated')
+        }
+        compileClasspath
+        runtimeClasspath
+    }
+}
+
+task runApp(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+
+    mainClass = 'example.Main'
+    dependsOn(":liquibase-migrations:build")
+}
+
+compileJooqJava {
+    dependsOn runApp
+}
+
+jar {
+    dependsOn compileJooqJava
+
+    from sourceSets.jooq.output.classesDirs
+    exclude('example')
+}
+
+dependencies {
+    implementation project(":liquibase-migrations")
+
+    implementation('org.jooq:jooq-codegen:3.15.1')
+    implementation('org.testcontainers:postgresql:1.16.2')
+    implementation('org.liquibase:liquibase-core:3.8.8')
+    implementation('org.postgresql:postgresql:42.3.1')
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.29'
+
+    jooqImplementation('org.jooq:jooq:3.15.1')
+
+}
